@@ -20,6 +20,6 @@ h2. Next steps:
 **Create .conf file in /Library/Server/Web/Config/apache2/sites/
 **``sudo apachectl graceful``
 *Change encryption key in app/application/config/config.php
-*Define contants in public/index.php
+*Define constants in public/index.php
 *Set up your google analytics account number in app/application/views/template/page.php
 *Delete this file
