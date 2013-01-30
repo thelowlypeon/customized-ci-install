@@ -1,5 +1,10 @@
 <?php
 
+define('COMPANY_NAME','Company Name');
+define('SITE_NAME','Site Name');
+define('SITE_DOMAIN','domain.com');
+define('SITE_URL','http://'.SITE_DOMAIN);
+
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
@@ -18,7 +23,27 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-	define('ENVIRONMENT', 'development');
+if(isset($_SERVER['HTTP_HOST'])) {
+    
+
+    switch( $_SERVER['HTTP_HOST'] ) {
+        case ( ( strpos($_SERVER['HTTP_HOST'],'localhost') != 0 || $_SERVER['SERVER_ADDR'] == '127.0.0.1' ) ? true : false ):
+            $env = 'dev_local';
+        break;
+        case (preg_match( '/dev\d?\.[a-z]+.com$/' , $_SERVER['HTTP_HOST'] ) ? true : false ):
+            $env = 'development';
+        break;
+        case SITE_DOMAIN:
+        default:
+            $env = 'production';
+        break;
+    }
+}
+else {
+    $env = 'production';
+}     
+       
+define('ENVIRONMENT', $env);
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -33,6 +58,7 @@ if (defined('ENVIRONMENT'))
 	switch (ENVIRONMENT)
 	{
 		case 'development':
+        case 'dev_local':
 			error_reporting(E_ALL);
 		break;
 	
@@ -46,6 +72,7 @@ if (defined('ENVIRONMENT'))
 	}
 }
 
+
 /*
  *---------------------------------------------------------------
  * SYSTEM FOLDER NAME
@@ -56,7 +83,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = 'system';
+	$system_path = '../app/system';
 
 /*
  *---------------------------------------------------------------
@@ -72,7 +99,7 @@ if (defined('ENVIRONMENT'))
  * NO TRAILING SLASH!
  *
  */
-	$application_folder = 'application';
+	$application_folder = '../app/application';
 
 /*
  * --------------------------------------------------------------------
